@@ -539,25 +539,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "tokenURIs",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address",
 						"name": "newOwner",
 						"type": "address"
@@ -572,7 +553,7 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "tokenId",
 						"type": "uint256"
 					}
 				],
@@ -709,7 +690,7 @@
 					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
 				},
 				"uri(uint256)": {
-					"details": "See {IERC1155MetadataURI-uri}. This implementation returns the same URI for *all* token types. It relies on the token type ID substitution mechanism https://eips.ethereum.org/EIPS/eip-1155#metadata[defined in the EIP]. Clients calling this function must replace the `\\{id\\}` substring with the actual token type ID."
+					"details": "See {IERC1155MetadataURI-uri}. This implementation returns the concatenation of the `_baseURI` and the token-specific uri if the latter is set This enables the following behaviors: - if `_tokenURIs[tokenId]` is set, then the result is the concatenation   of `_baseURI` and `_tokenURIs[tokenId]` (keep in mind that `_baseURI`   is empty per default); - if `_tokenURIs[tokenId]` is NOT set then we fallback to `super.uri()`   which in most cases will contain `ERC1155._uri`; - if `_tokenURIs[tokenId]` is NOT set, and if the parents do not have a   uri value set, then the result is empty."
 				}
 			},
 			"version": 1
@@ -776,12 +757,12 @@
 				"dweb:/ipfs/Qme2DuD8gpsve1ZvaSMQpBwMdpU7yAtekDwr7gUp8dX4zX"
 			]
 		},
-		"@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol": {
-			"keccak256": "0x1cebc792116430641b9ec887f245ce5dde0ace17a8d5fc38e03fd087e061b537",
+		"@openzeppelin/contracts/token/ERC1155/extensions/ERC1155URIStorage.sol": {
+			"keccak256": "0xb4eb1c685e07054beaab5d980a18dec0ea59470154fa1ef847f8cfb6ddc1f543",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://21fea8da292377bdc2930254fd5536c1d2be84a1fcb6268527ab8dd1142b23ee",
-				"dweb:/ipfs/QmS5AwrNHbvcFB7TmwcXZNXPgMXZxRxmmcey4eP8YTvBgX"
+				"bzz-raw://7cea55f4390e3c35e08616bb3c4932ab54157eb60e3939798860b26bdd62fac0",
+				"dweb:/ipfs/QmWTMWhGVPnaGhwExT8618GSqm2gejaf8yanp9fjsd8oQS"
 			]
 		},
 		"@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol": {
@@ -816,6 +797,14 @@
 				"dweb:/ipfs/QmTHiadFCSJUPpRjNegc5SahmeU8bAoY8i9Aq6tVscbcKR"
 			]
 		},
+		"@openzeppelin/contracts/utils/Strings.sol": {
+			"keccak256": "0x55f102ea785d8399c0e58d1108e2d289506dde18abc6db1b7f68c1f9f9bc5792",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6e52e0a7765c943ef14e5bcf11e46e6139fa044be564881378349236bf2e3453",
+				"dweb:/ipfs/QmZEeeXoFPW47amyP35gfzomF9DixqqTEPwzBakv6cZw6i"
+			]
+		},
 		"@openzeppelin/contracts/utils/introspection/ERC165.sol": {
 			"keccak256": "0x9e8778b14317ba9e256c30a76fd6c32b960af621987f56069e1e819c77c6a133",
 			"license": "MIT",
@@ -840,12 +829,20 @@
 				"dweb:/ipfs/QmQyRpyPRL5SQuAgj6SHmbir3foX65FJjbVTTQrA2EFg6L"
 			]
 		},
-		"contracts/MusicPlatform.sol": {
-			"keccak256": "0xd2d2547ac9fd14fd9ad3c381aeb4501689e58b4e92322fe306666f94f13333ce",
+		"@openzeppelin/contracts/utils/math/SignedMath.sol": {
+			"keccak256": "0x5f7e4076e175393767754387c962926577f1660dd9b810187b9002407656be72",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ff56390bb57654d6c69090e635aa220fd839a760d44921c44ade7d513fe0056f",
-				"dweb:/ipfs/QmWCnm5XeiPG2b9Fb7hPefefVX7GfyK16PPh3td7KfttwE"
+				"bzz-raw://7d533a1c97cd43a57cd9c465f7ee8dd0e39ae93a8fb8ff8e5303a356b081cdcc",
+				"dweb:/ipfs/QmVBEei6aTnvYNZp2CHYVNKyZS4q1KkjANfY39WVXZXVoT"
+			]
+		},
+		"contracts/MusicPlatform.sol": {
+			"keccak256": "0xfe200c9544547d7ad2ac9b9fa34a468b4f218ac3c744a5e61f83a69653b1c533",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f67904b20094db6bb4425895e63a4b94f2e8c0c1098f12c5dfb1395cb3398bd0",
+				"dweb:/ipfs/QmeKaEWjUEswuCjy9QMAZZ8KXYEBbA5N6RAqimpB8M4216"
 			]
 		}
 	},

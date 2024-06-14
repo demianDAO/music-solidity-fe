@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/NFTSwap.sol": "Name"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/NFTSwap.sol": {
+			"keccak256": "0x1f6de6302f5cc8161d738d15ca79b54fa759701f1f70c8d179fe61d200c59807",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4f41ae55311389aec5c4df469cc2d3c0f4f1c463902cf27bf779158e38908b9c",
+				"dweb:/ipfs/QmWNstM9KSDpjNF1yu5Mdzvmyz37Dmr6vNSFHurccBiYce"
+			]
+		}
+	},
+	"version": 1
+}
