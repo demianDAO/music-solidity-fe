@@ -11,24 +11,31 @@ contract SongNFTTrade {
 
     event SongPurchased(uint256 indexed id, address buyer, uint256 price);
 
+    mapping (address => mapping(uint => uint)) public priceList;
+
     constructor(IERC20 _token, SongNFT _nft) {
         token = _token;
         nft = _nft;
     }
 
+    function setPrice(uint id, uint price) external {
+        priceList[msg.sender][id] = price;
+    }
+
+    function getPrice(uint id) external view returns (uint) {
+        return priceList[msg.sender][id];
+    }
+
     function purchaseSong(
         uint256 id,
-        uint price,
         address singer
     ) external  {
-        require(nft.balanceOf(msg.sender, id) == 0, "Already owns the token");
+        require(nft.balanceOf(singer, id) > 0, "Sold out");
 
-        require(nft.balanceOf(singer, id) > 0, "Insufficient token balance");
+        uint price = priceList[singer][id];
 
-        // 将代币从用户转移到歌手
         token.transferFrom(msg.sender, singer, price);
-
-        // 将NFT转移给购买者
+     
         nft.safeTransferFrom(singer, msg.sender, id, 1);
 
         emit SongPurchased(id, msg.sender, price);

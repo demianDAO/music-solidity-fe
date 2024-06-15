@@ -6,13 +6,7 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "initialOwner",
-						"type": "address"
-					}
-				],
+				"inputs": [],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -732,11 +726,11 @@
 			]
 		},
 		"contracts/SongNFT.sol": {
-			"keccak256": "0xe3b156c43a7b391e8a8a82cff0219055e68a3cb89e204c2b7471d9bd00a26f02",
+			"keccak256": "0xc033afc63042b046c0ed39a13f3231a19634a855327d5056eba4810f3979f323",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3a177e61554737dfb3ce52d2d2f290c1567bc371c4bf262fee7b0f883b72c490",
-				"dweb:/ipfs/QmSmSK3wktU8Bh1ahpkbSeipUhxv5hPs8sFXfMLvJPHFFR"
+				"bzz-raw://5344d2a0aa68ba2e2273056a5ed51d92f321e243b323e02ac1641ca2532612d9",
+				"dweb:/ipfs/QmSAGPU6R4XXTiv4THERDDue4NfRck8oihJyjuuUQEcpmG"
 			]
 		}
 	},
