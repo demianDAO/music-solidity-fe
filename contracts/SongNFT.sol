@@ -11,10 +11,11 @@ contract SongNFT is ERC1155URIStorage {
     uint256 public currentID;
 
     function mint(
+        address to,
         uint256 amount,
         string memory uri
     ) external {
-        _mint(msg.sender, currentID, amount, "");
+        _mint(to, currentID, amount, "");
         _setURI(currentID, uri);
         currentID++;
     }

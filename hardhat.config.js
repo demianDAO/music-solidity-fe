@@ -4,13 +4,13 @@ dotenv.config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.24",
+  solidity: "0.8.26",
   defaultNetwork: "bnb_testnet",
   networks: {
     bnb_testnet: {
-      url: "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
+      url: "https://bsc-testnet-dataseed.bnbchain.org",
       chainId: 97,
-      accounts: [process.env.TEST_ACCOUNT2_PRIVATEKEY],
+      accounts: [process.env.TEST_ACCOUNT1_PRIVATEKEY],
     },
     sepolia: {
       url: "https://sepolia.infura.io/v3/6b7f3960da564093ade725a5b8e6d3b4",

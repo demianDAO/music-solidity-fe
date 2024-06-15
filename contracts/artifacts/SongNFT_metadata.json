@@ -318,6 +318,11 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
@@ -601,13 +606,13 @@
 		"compilationTarget": {
 			"contracts/SongNFT.sol": "SongNFT"
 		},
-		"evmVersion": "cancun",
+		"evmVersion": "paris",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -726,11 +731,11 @@
 			]
 		},
 		"contracts/SongNFT.sol": {
-			"keccak256": "0xc033afc63042b046c0ed39a13f3231a19634a855327d5056eba4810f3979f323",
+			"keccak256": "0xc5f2e575fca2896cfc0b6b3c7a415dd519d18a21ee5f851ac91a72daf770da9b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5344d2a0aa68ba2e2273056a5ed51d92f321e243b323e02ac1641ca2532612d9",
-				"dweb:/ipfs/QmSAGPU6R4XXTiv4THERDDue4NfRck8oihJyjuuUQEcpmG"
+				"bzz-raw://3b99799c90118ee86a24e45896b0d63f3c4cbe09c488dde92d6131239034eda0",
+				"dweb:/ipfs/Qma4tU4F8b2Bm3zFXw1C9yXg1MGsfvcpUKnekVFDeQVmGQ"
 			]
 		}
 	},
