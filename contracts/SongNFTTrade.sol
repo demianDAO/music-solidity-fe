@@ -26,9 +26,9 @@ contract SongNFTTrade {
 
     mapping(address => SongInfo[]) public songInfos;
 
-    constructor(MPToken _token, SongNFT _nft) {
-        token = _token;
-        nft = _nft;
+    constructor(address _token, address _nft) {
+        token = MPToken(_token);
+        nft = SongNFT(_nft);
     }
 
     function CreateSong(

@@ -3,8 +3,12 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = buildModule("NFTModule", (m) => {
-  // const mpToken = m.contract("MPToken", [process.env.TEST_ACCOUNT1_ADDRESS]);
-  // const songNFT = m.contract("SongNFT");
-  const songNFTTrade = m.contract("SongNFTTrade", [process.env.TOKEN, process.env.NFT]);
+  const owner = m.getAccount(1);
+  console.log(owner);
+  const mpToken = m.contract("MPToken");
+  const songNFT = m.contract("SongNFT");
+  const songNFTTrade = m.contract("SongNFTTrade", [mpToken, songNFT]);
   return { songNFTTrade };
 });
+
+

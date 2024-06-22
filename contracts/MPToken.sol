@@ -7,9 +7,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 
 contract MPToken is ERC20, Ownable, ERC20Permit {
-    constructor(address initialOwner)
+    constructor()
         ERC20("MP Token", "MP")
-        Ownable(initialOwner)
+        Ownable(msg.sender)
         ERC20Permit("MP Token")
     {}
 
