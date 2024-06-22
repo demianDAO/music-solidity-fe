@@ -9,12 +9,12 @@ contract SongNFTTrade {
     MPToken public token;
     SongNFT public nft;
 
-    struct MusicInfo{
+    struct SongInfo{
         uint price;
         uint tokenId;
     }
 
-    struct MusicDetails {
+    struct SongDetails {
         uint tokenId;
         string tokenURI;
         uint balance;
@@ -22,41 +22,45 @@ contract SongNFTTrade {
     }
 
     event SongPurchased(uint256 indexed id, address buyer, uint256 price);
+    event SongCreated(uint256 indexed tokenId, address indexed owner, uint256 price, string tokenURI);
 
-    mapping(address => MusicInfo[]) public musicInfos;
+    mapping(address => SongInfo[]) public songInfos;
 
     constructor(MPToken _token, SongNFT _nft) {
         token = _token;
         nft = _nft;
     }
 
-    function CreateMusic(
+    function CreateSong(
         uint amount,
         uint price,
         string memory uri
     ) external {
-        MusicInfo[] storage curMusicInfos = musicInfos[msg.sender];
+        SongInfo[] storage curSongInfos = songInfos[msg.sender];
+
+        uint tokenId = nft.currentID();
         
-        curMusicInfos.push(MusicInfo({
+        curSongInfos.push(SongInfo({
             price: price,
-            tokenId: nft.currentID()
+            tokenId: tokenId
         }));
 
         nft.mint(msg.sender, amount, uri);
+        emit SongCreated(tokenId, msg.sender, price, uri);
     }
 
-    function getMusicInfos() external view returns (MusicDetails[] memory) {
-        MusicInfo[] storage userMusicInfos = musicInfos[msg.sender];
-        uint length = userMusicInfos.length;
-        MusicDetails[] memory details = new MusicDetails[](length);
+    function getSongInfos() external view returns (SongDetails[] memory) {
+        SongInfo[] storage userSongInfos = songInfos[msg.sender];
+        uint length = userSongInfos.length;
+        SongDetails[] memory details = new SongDetails[](length);
 
         for (uint i = 0; i < length; i++) {
-            uint tokenId = userMusicInfos[i].tokenId;
+            uint tokenId = userSongInfos[i].tokenId;
             string memory tokenURI = nft.uri(tokenId);
             uint balance = nft.balanceOf(msg.sender, tokenId);
-            uint price = userMusicInfos[i].price;
+            uint price = userSongInfos[i].price;
 
-            details[i] = MusicDetails({
+            details[i] = SongDetails({
                 tokenId: tokenId,
                 tokenURI: tokenURI,
                 balance: balance,
@@ -72,10 +76,10 @@ contract SongNFTTrade {
 
         // Find the price of the NFT
         uint price = 0;
-        MusicInfo[] storage curMusicInfos = musicInfos[singer];
-        for (uint i = 0; i < curMusicInfos.length; i++) {
-            if (curMusicInfos[i].tokenId == id) {
-                price = curMusicInfos[i].price;
+        SongInfo[] storage curSongInfos = songInfos[singer];
+        for (uint i = 0; i < curSongInfos.length; i++) {
+            if (curSongInfos[i].tokenId == id) {
+                price = curSongInfos[i].price;
                 break;
             }
         }

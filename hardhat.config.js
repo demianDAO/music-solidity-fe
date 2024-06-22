@@ -1,4 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("@nomicfoundation/hardhat-ethers");
+require("@nomicfoundation/hardhat-verify");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -8,7 +10,7 @@ module.exports = {
   defaultNetwork: "bnb_testnet",
   networks: {
     bnb_testnet: {
-      url: "https://bsc-testnet-dataseed.bnbchain.org",
+      url: "https://go.getblock.io/545d262ed8744515b100603aa689a3de",
       chainId: 97,
       accounts: [process.env.TEST_ACCOUNT1_PRIVATEKEY],
     },
