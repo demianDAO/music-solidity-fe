@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-
 import "./SongNFT.sol";
 import "./MPToken.sol";
 
@@ -9,10 +8,6 @@ contract SongNFTTrade {
     MPToken public token;
     SongNFT public nft;
 
-    struct SongInfo{
-        uint price;
-        uint tokenId;
-    }
 
     struct SongDetails {
         uint tokenId;
@@ -21,44 +16,43 @@ contract SongNFTTrade {
         uint price;
     }
 
-    event SongPurchased(uint256 indexed id, address buyer, uint256 price);
-    event SongCreated(uint256 indexed tokenId, address indexed owner, uint256 price, string tokenURI);
+    event SongPurchased(uint256 indexed tokenId, address buyer, uint256 price, address singer);
 
-    mapping(address => SongInfo[]) public songInfos;
+    event ReleasedSong(
+        address indexed singer,
+        uint256 price,
+        string tokenURI,
+        uint256 tokenId,
+        uint amount
+    );
+
+    mapping(address => mapping(uint => uint)) public songPricesByAddr;
+    mapping(address => uint[]) songTokenIdsByAddr;
 
     constructor(address _token, address _nft) {
         token = MPToken(_token);
         nft = SongNFT(_nft);
     }
 
-    function CreateSong(
-        uint amount,
-        uint price,
-        string memory uri
-    ) external {
-        SongInfo[] storage curSongInfos = songInfos[msg.sender];
-
+    function releasedSong(uint amount, uint price, string memory uri) external {
         uint tokenId = nft.currentID();
-        
-        curSongInfos.push(SongInfo({
-            price: price,
-            tokenId: tokenId
-        }));
-
+        songPricesByAddr[msg.sender][tokenId] = price;
+        songTokenIdsByAddr[msg.sender].push(tokenId);
         nft.mint(msg.sender, amount, uri);
-        emit SongCreated(tokenId, msg.sender, price, uri);
+        emit ReleasedSong(msg.sender, price, uri, tokenId, amount);
     }
 
-    function getSongInfos() external view returns (SongDetails[] memory) {
-        SongInfo[] storage userSongInfos = songInfos[msg.sender];
-        uint length = userSongInfos.length;
-        SongDetails[] memory details = new SongDetails[](length);
+    function getSongInfos(address user) external view returns (SongDetails[] memory) {
+        uint[] memory tokenIds = songTokenIdsByAddr[user];
+        uint len = tokenIds.length;
+        require(len > 0, "No songs released");
+        SongDetails[] memory details = new SongDetails[](len);
 
-        for (uint i = 0; i < length; i++) {
-            uint tokenId = userSongInfos[i].tokenId;
+        for (uint i = 0; i < len; i++) {
+            uint tokenId = tokenIds[i];
             string memory tokenURI = nft.uri(tokenId);
-            uint balance = nft.balanceOf(msg.sender, tokenId);
-            uint price = userSongInfos[i].price;
+            uint balance = nft.balanceOf(user, tokenId);
+            uint price = songPricesByAddr[user][tokenId];
 
             details[i] = SongDetails({
                 tokenId: tokenId,
@@ -71,25 +65,23 @@ contract SongNFTTrade {
         return details;
     }
 
-   function purchaseSong(uint256 id, address singer) external {
-        require(nft.balanceOf(singer, id) > 0, "Sold out");
+    function purchaseSong(uint256 tokenId, address singer) external {
+        require(nft.balanceOf(singer, tokenId) > 0, "Sold out");
 
-        // Find the price of the NFT
-        uint price = 0;
-        SongInfo[] storage curSongInfos = songInfos[singer];
-        for (uint i = 0; i < curSongInfos.length; i++) {
-            if (curSongInfos[i].tokenId == id) {
-                price = curSongInfos[i].price;
-                break;
-            }
-        }
+        uint price = songPricesByAddr[singer][tokenId];
 
         require(price > 0, "Song not listed for sale");
 
-        require(token.transferFrom(msg.sender, singer, price), "Token transfer failed");
+        require(
+            token.transferFrom(msg.sender, singer, price),
+            "Token transfer failed"
+        );
 
-        nft.safeTransferFrom(singer, msg.sender, id, 1);
+        nft.safeTransferFrom(singer, msg.sender, tokenId, 1);
 
-        emit SongPurchased(id, msg.sender, price);
+        songPricesByAddr[msg.sender][tokenId] = price;
+        songTokenIdsByAddr[msg.sender].push(tokenId);
+
+        emit SongPurchased(tokenId, msg.sender, price, singer);
     }
 }
